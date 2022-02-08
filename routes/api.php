@@ -22,7 +22,7 @@ use Illuminate\Support\Facades\Route;
 // Same functionality as apiResource, but divided for better control
 Route::get("showAllVenues", [VenueController::class, "index"]);
 Route::post("createVenues", [VenueController::class, "store"]);
-Route::patch("updateVenue/{venue}", [VenueController::class, "update"]);
+Route::patch("updateVenue/{venue}", [VenueController::class, "update"])->name('venue.update');;
 Route::get("showVenueById/{id}", [VenueController::class, "show"]);
 Route::delete("destroy/{id}", [VenueController::class, "destroy"]);
 Route::post("createUser", [UserController::class, "createUser"]);

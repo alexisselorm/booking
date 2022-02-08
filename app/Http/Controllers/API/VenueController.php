@@ -74,7 +74,6 @@ class VenueController extends Controller
         $validated = $request->validated();
 
         if (isset($validated['image'])) {
-            $validated['image']->store('uploads');
             $validated['image'] = $validated['image']->store('uploads', 'public');
         }
 

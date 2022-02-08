@@ -5,6 +5,8 @@ namespace Tests\Feature\Http\Controllers\API;
 use App\Models\Venue;
 use Illuminate\Foundation\Testing\LazilyRefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
 class VenueControllerTest extends TestCase
@@ -14,6 +16,8 @@ class VenueControllerTest extends TestCase
 
     public function testGuestCanUpdateVenue()
     {
+        Storage::fake('public');
+
         $venue = Venue::create([
             'name'        => 'Test name',
             'alias'       => 'Test alias',
@@ -28,6 +32,8 @@ class VenueControllerTest extends TestCase
 
         $this->assertModelExists($venue);
 
+        Storage::disk('public')->assertMissing('image.jpg');
+
         $response = $this->patchJson(route('venue.update', $venue->id), [
             'name'          => 'Test name after update',
             'alias'         => 'Test alias after update',
@@ -36,7 +42,12 @@ class VenueControllerTest extends TestCase
             'department_id' => 1,
             'location_id'   => 1,
             'status'        => 2,
+            'image'         => UploadedFile::fake()->image('image.jpg')
         ]);
+
+        $venue->refresh();
+
+        Storage::disk('public')->assertExists($venue->image);
 
         $response->assertNoContent();
 

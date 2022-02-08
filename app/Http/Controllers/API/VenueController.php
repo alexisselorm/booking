@@ -74,7 +74,8 @@ class VenueController extends Controller
         $validated = $request->validated();
 
         if (isset($validated['image'])) {
-            $validated['image'] = Storage::disk('public')->url(request()->file('image')->store('uploads', 'public'));
+            $validated['image']->store('uploads');
+            $validated['image'] = $validated['image']->store('uploads', 'public');
         }
 
         abort_unless($venue->fill($validated)->save(), 500, 'Failed to update venue.');

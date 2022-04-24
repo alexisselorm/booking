@@ -1,10 +1,9 @@
 <?php
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\API\BookingController;
 use App\Http\Controllers\API\UserController;
 use App\Http\Controllers\API\VenueController;
-use App\Http\Controllers\API\BookingController;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,35 +20,34 @@ use App\Http\Controllers\API\BookingController;
 // Route::apiResource('venues', VenueController::class);
 
 // Same functionality as apiResource, but divided for better control
-    Route::get("showAllVenues",[VenueController::class,"index"]);
-    Route::post("createVenues",[VenueController::class,"store"]);
-    Route::post("updateVenue/{id}",[VenueController::class,"update"]);
-    Route::get("showVenueById/{id}",[VenueController::class,"show"]);
-    Route::delete("destroy/{id}",[VenueController::class,"destroy"]);
-    Route::post("createUser",[UserController::class,"createUser"]);
+Route::get("showAllVenues", [VenueController::class, "index"]);
+Route::post("createVenues", [VenueController::class, "store"]);
+Route::patch("updateVenue/{venue}", [VenueController::class, "update"])->name('venue.update');;
+Route::get("showVenueById/{id}", [VenueController::class, "show"]);
+Route::delete("destroy/{id}", [VenueController::class, "destroy"]);
+Route::post("createUser", [UserController::class, "createUser"]);
 
-    // Booking Routes
-    Route::get("showAllBookings",[BookingController::class,"index"]);
-    Route::post("createBooking",[BookingController::class,"store"]);
-    Route::get("showBookingById/{id",[BookingController::class,"show"]);
-    Route::patch("updateBooking/{id}",[BookingController::class,"update"]);
+// Booking Routes
+Route::get("showAllBookings", [BookingController::class, "index"]);
+Route::post("createBooking", [BookingController::class, "store"]);
+Route::get("showBookingById/{id", [BookingController::class, "show"]);
+Route::patch("updateBooking/{id}", [BookingController::class, "update"]);
 
 
-
-    Route::post("login",[UserController::class,"login"])->name('login');
+Route::post("login", [UserController::class, "login"])->name('login');
 // Use this middleware if the user is logged in
 Route::group(["middleware" => ["auth:sanctum"]], function () {
     // User Routes
-    Route::get("profile",[UserController::class,"dashboard"]);
-    Route::post("logout",[UserController::class,"logout"]);
-   
+    Route::get("profile", [UserController::class, "dashboard"]);
+    Route::post("logout", [UserController::class, "logout"]);
+
 //    Venue Routes
     // Route::get("showAllVenues",[VenueController::class,"index"]);
     // Route::post("createVenues",[VenueController::class,"store"]);
     // Route::put("updateVenue{id}",[VenueController::class,"update"]);
     // Route::get("showVenueById/{id}",[VenueController::class,"show"]);
     // Route::delete("destroy{id}",[VenueController::class,"destroy"]);
-    
+
 });
 
 // Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
